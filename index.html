@@ -2,55 +2,94 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inventario de Productos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>📦 Inventario de Productos</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <script src="https://unpkg.com/html5-qrcode/minified/html5-qrcode.min.js"></script>
 </head>
 <body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="#" class="navbar-logo"><i class="fas fa-box"></i> Inventario</a>
+            <ul class="navbar-menu">
+                <li><a href="#formulario-inventario"><i class="fas fa-plus-circle"></i> Agregar Producto</a></li>
+                <li><a href="#tabla-body"><i class="fas fa-list"></i> Ver Productos</a></li>
+                <li><a href="#exportar-excel"><i class="fas fa-file-export"></i> Exportar</a></li>
+            </ul>
+        </div>
+    </nav>
     <div class="container">
         <header>
-            <h1>📦 Inventario de Productos</h1>
+            <h1><i class="fas fa-boxes"></i> Inventario de Productos</h1>
         </header>
 
         <!-- Formulario para agregar productos -->
         <form id="formulario-inventario">
-            <label for="nombre-producto">Nombre del Producto:</label>
-            <input type="text" id="nombre-producto" required>
+            <label for="codigo-producto"><i class="fas fa-barcode"></i> Código del Producto:</label>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <input type="text" id="codigo-producto" placeholder="Ingrese el código del producto" required>
+                <button type="button" id="escanear-codigo" class="btn-escanear">
+                    <i class="fas fa-camera"></i> Escanear
+                </button>
+            </div>
+            <video id="video" style="display:none; width: 100%; max-width: 400px; border: 1px solid #ccc;"></video>
+            <canvas id="canvas" style="display:none;"></canvas>
+            
+            <label for="nombre-producto"><i class="fas fa-tag"></i> Nombre del Producto:</label>
+            <input type="text" id="nombre-producto" placeholder="Ingrese el nombre del producto" required>
 
-            <label for="cantidad">Cantidad:</label>
-            <input type="number" id="cantidad" required>
+            <label for="cantidad"><i class="fas fa-sort-numeric-up"></i> Cantidad:</label>
+            <input type="number" id="cantidad" placeholder="Ingrese la cantidad" required>
 
-            <label for="precio">Precio:</label>
-            <input type="number" id="precio" required>
+            <label for="precio"><i class="fas fa-dollar-sign"></i> Precio:</label>
+            <input type="number" id="precio" placeholder="Ingrese el precio" required>
 
-            <!-- Campo de imagen de producto (opcional) -->
-            <label for="imagen">Subir Imagen del Producto (opcional):</label>
+            <label for="imagen"><i class="fas fa-image"></i> Subir Imagen del Producto (opcional):</label>
             <input type="file" id="imagen" accept="image/*">
 
-            <button type="submit" class="btn-agregar">Agregar Producto</button>
+            <button type="submit" class="btn-agregar"><i class="fas fa-plus"></i> Agregar Producto</button>
         </form>
-
-        <p id="error-mensaje" class="error" style="display: none;">❌ Este producto ya está registrado.</p>
-
-        <input type="text" id="busqueda" placeholder="🔍 Buscar producto..." onkeyup="buscarProducto()">
-
-        <!-- Tabla de productos -->
-        <table>
-            <thead>
-                <tr>
-                    <th>Imagen</th>
-                    <th>Nombre</th>
-                    <th>Cantidad</th>
-                    <th>Precio</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody id="tabla-body">
-                <!-- Aquí se mostrarán los productos -->
-            </tbody>
-        </table>
     </div>
 
-    <script src="js/script.js"></script>
+    <script>
+        document.getElementById("escanear-codigo").addEventListener("click", function() {
+            // Verificar si el navegador soporta la API de permisos de la cámara
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                // Solicitar permisos para la cámara
+                navigator.mediaDevices.getUserMedia({ video: true })
+                    .then(function(stream) {
+                        // Si el permiso es concedido, iniciamos el escaneo
+                        const video = document.getElementById('video');
+                        video.style.display = "block";
+                        video.srcObject = stream;
+
+                        // Iniciamos el escáner
+                        const html5QrCode = new Html5Qrcode("video");
+                        html5QrCode.start({ facingMode: "environment" }, {
+                            fps: 10,
+                            qrbox: 250
+                        }, (decodedText, decodedResult) => {
+                            // Mostramos el valor escaneado en el campo
+                            document.getElementById("codigo-producto").value = decodedText;
+                            html5QrCode.stop().then(() => {
+                                video.style.display = "none"; // Detenemos el video
+                            }).catch(err => {
+                                console.error("Error al detener el escáner:", err);
+                            });
+                        }).catch(err => {
+                            console.error("Error al iniciar el escáner:", err);
+                        });
+                    })
+                    .catch(function(err) {
+                        alert("Error al acceder a la cámara: " + err);
+                    });
+            } else {
+                alert("La cámara no está soportada en este navegador.");
+            }
+        });
+    </script>
+
 </body>
 </html>
