@@ -32,3 +32,27 @@ document.getElementById("modal-form").addEventListener("submit", function(event)
         alert("Todos los campos deben ser completados para modificar el producto.");
     }
 });
+
+function agregarRegistro(event) {
+    event.preventDefault(); // Prevenir el comportamiento por defecto del formulario
+
+    let nombre = document.getElementById("nombre-producto").value;
+    let cantidad = parseInt(document.getElementById("cantidad").value, 10);
+    let precio = parseFloat(document.getElementById("precio").value);
+    let imagen = document.getElementById("imagen").files[0];
+
+    let imagenData = imagen ? URL.createObjectURL(imagen) : '';
+
+    if (nombre && cantidad > 0 && precio > 0) {
+        let registros = JSON.parse(localStorage.getItem("inventario")) || [];
+        if (registros.some(registro => registro.nombre === nombre)) {
+            alert("Este producto ya está registrado.");
+            return;
+        }
+        registros.push({ nombre, cantidad, precio, imagen: imagenData });
+        localStorage.setItem("inventario", JSON.stringify(registros));
+        cargarRegistros();
+    } else {
+        alert("Por favor, complete todos los campos requeridos con valores válidos.");
+    }
+}
