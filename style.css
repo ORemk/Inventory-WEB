@@ -1,19 +1,10 @@
-/* Variables CSS para colores */
-:root {
-    --primary-color: #00bcd4;
-    --secondary-color: #00ffcc;
-    --background-color: rgba(0, 0, 0, 0.7);
-    --button-modify-color: #ff9800;
-    --button-delete-color: #f44336;
-}
-
 /* Fondo dinámico de tecnología (GIF) */
 body {
     font-family: 'Arial', sans-serif;
     text-align: center;
     margin: 0;
     padding: 0;
-    background-image: url('https://media.giphy.com/media/3o6Zt5WXY5vpHEdPfy/giphy.gif');
+    background-image: url('https://media.giphy.com/media/3o6Zt5WXY5vpHEdPfy/giphy.gif'); /* Fondo GIF de tecnología */
     background-size: cover;
     background-position: center;
     height: 100vh;
@@ -22,7 +13,7 @@ body {
 
 /* Estilo del contenedor principal */
 .container {
-    background: var(--background-color);
+    background: rgba(0, 0, 0, 0.7); /* Fondo oscuro semitransparente para contraste */
     padding: 30px;
     width: 60%;
     margin: auto;
@@ -33,7 +24,7 @@ body {
 
 /* Estilo del encabezado */
 header h1 {
-    color: var(--primary-color);
+    color: #00bcd4;
     font-size: 2.5rem;
     margin-bottom: 20px;
     animation: bounceIn 1s ease-in-out;
@@ -64,7 +55,7 @@ form input, form button {
     padding: 12px;
     margin-bottom: 10px;
     border-radius: 10px;
-    border: 1px solid var(--primary-color);
+    border: 1px solid #00bcd4;
     font-size: 1.1rem;
     background-color: rgba(255, 255, 255, 0.8);
     color: #333;
@@ -73,12 +64,12 @@ form input, form button {
 }
 
 form input:focus, form button:hover {
-    border-color: var(--secondary-color);
+    border-color: #00ffcc;
     transform: scale(1.05);
 }
 
 form button {
-    background-color: var(--primary-color);
+    background-color: #00bcd4;
     color: white;
     font-size: 1.2rem;
     cursor: pointer;
@@ -86,7 +77,7 @@ form button {
 }
 
 form button:hover {
-    background-color: var(--secondary-color);
+    background-color: #00ffcc;
 }
 
 /* Barra de búsqueda */
@@ -94,7 +85,7 @@ form button:hover {
     padding: 10px;
     margin: 15px 0;
     border-radius: 10px;
-    border: 1px solid var(--primary-color);
+    border: 1px solid #00bcd4;
     width: 50%;
     font-size: 1.1rem;
     background-color: rgba(255, 255, 255, 0.8);
@@ -102,7 +93,7 @@ form button:hover {
 }
 
 #busqueda:focus {
-    border-color: var(--secondary-color);
+    border-color: #00ffcc;
     transform: scale(1.05);
 }
 
@@ -123,7 +114,7 @@ table th, table td {
 }
 
 table th {
-    background-color: var(--primary-color);
+    background-color: #00bcd4;
     color: white;
     font-weight: bold;
     font-size: 1.2rem;
@@ -155,12 +146,12 @@ button {
 }
 
 .btn-modificar {
-    background-color: var(--button-modify-color);
+    background-color: #ff9800;
     color: white;
 }
 
 .btn-eliminar {
-    background-color: var(--button-delete-color);
+    background-color: #f44336;
     color: white;
 }
 
